@@ -41,7 +41,7 @@ def delete_amenity_to_a_place(place_id, amenity_id):
 
 @app_views.route(
     '/places/<place_id>/amenities/<amenity_id>',
-    methods=['DELETE']
+    methods=['POST']
 )
 def link_amenity_to_a_place(place_id, amenity_id):
     """ Link a amenity to a place object """
@@ -51,6 +51,8 @@ def link_amenity_to_a_place(place_id, amenity_id):
         if amenity_obj not in place_obj.amenities:
             place_obj.amenities.append(amenity_obj)
             storage.save()
-        return jsonify(amenity_obj.to_dict()), 200
+            return jsonify(amenity_obj.to_dict()), 201
+        else:
+            return jsonify(amenity_obj.to_dict()), 200
     else:
         abort(404)
